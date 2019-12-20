@@ -1,10 +1,17 @@
 package com.company;
 
+import javafx.scene.control.RadioButton;
+
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static java.awt.event.KeyEvent.*;
 
 public class JCalculator extends JFrame {
 
@@ -13,9 +20,9 @@ public class JCalculator extends JFrame {
     JTextField field = new JTextField();
 
     public JCalculator(){
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(290, 420);
-        this.setVisible(true);
         this.setResizable(false);
         this.setTitle("JCalculator");
         this.setLayout(null);
@@ -37,7 +44,6 @@ public class JCalculator extends JFrame {
         JButton division =new JButton("÷");
         JButton equality =new JButton("=");
         JButton delete =new JButton("C");
-
 
         this.add(one);
         this.add(two);
@@ -82,13 +88,11 @@ public class JCalculator extends JFrame {
         field.setBackground(Color.getColor("e1e1e1"));
         field.setEditable(false);
         this.add(field);
-
         AtomicInteger num1= new AtomicInteger();
         AtomicInteger num2= new AtomicInteger();
-        AtomicInteger sum= new AtomicInteger();
         AtomicReference<String> result = new AtomicReference<>("");
 
-        one.addActionListener((e)->  field.setText(field.getText() + "1") );
+        one.addActionListener((e)->  field.setText(field.getText() + "1"));
         two.addActionListener((e)->  field.setText(field.getText() + "2"));
         three.addActionListener((e)->  field.setText(field.getText() + "3"));
         four.addActionListener((e)->  field.setText(field.getText() + "4"));
@@ -132,7 +136,9 @@ public class JCalculator extends JFrame {
                 int index = text.indexOf("+");
                 result.set(text.substring(index + 1));
                 num2.set(Integer.parseInt(String.valueOf(result)));
-                sum.set(num1.get() + num2.get());
+                int number1 = num1.get();
+                int number2 = num2.get();
+                var sum = number1 + number2;
                 field.setText(String.valueOf(sum));
             }
             if(text.contains("-") && !text.contains("+")  ){
@@ -142,13 +148,17 @@ public class JCalculator extends JFrame {
                     int index = text.indexOf("-");
                     result.set(text.substring(index + n1.length() + 1));
                     num2.set(Integer.parseInt(String.valueOf(result)));
-                    sum.set(num1.get() - num2.get());
+                    int number1 = num1.get();
+                    int number2 = num2.get();
+                    var sum = number1 - number2;
                     field.setText(String.valueOf(sum));
                 } else {
                     int index = text.indexOf("-");
                     result.set(text.substring(index + 1));
                     num2.set(Integer.parseInt(String.valueOf(result)));
-                    sum.set(num1.get() - num2.get());
+                    int number1 = num1.get();
+                    int number2 = num2.get();
+                    var sum = number1 - number2;
                     field.setText(String.valueOf(sum));
                 }
             }
@@ -156,17 +166,120 @@ public class JCalculator extends JFrame {
                 int index = text.indexOf("x");
                 result.set(text.substring(index + 1));
                 num2.set(Integer.parseInt(String.valueOf(result)));
-                sum.set(num1.get() * num2.get());
+                 int number1 = num1.get();
+                 int number2 = num2.get();
+                 var sum = number1 * number2;
                 field.setText(String.valueOf(sum));
             }
              if(text.contains("÷")){
                 int index = text.indexOf("÷");
                 result.set(text.substring(index + 1));
                 num2.set(Integer.parseInt(String.valueOf(result)));
-                sum.set(num1.get() / num2.get());
-                field.setText(String.valueOf(sum));
+                 int number1 = num1.get();
+                 int number2 = num2.get();
+                try {
+                    var sum = number1 / number2;
+                    field.setText(String.valueOf(sum));
+                } catch(Exception e1){
+                    field.setText("Not a number");
+                }
             }
             System.out.println("= is pressed");
         });
+
+
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+                System.out.println("Key Typed!");
+            }
+            @Override
+            public void keyPressed(KeyEvent event) {
+                int keyCode = event.getKeyCode();
+                if (keyCode == event.VK_1)
+                {
+                    field.setText(field.getText() + "1");
+                }
+                if (keyCode == event.VK_2)
+                {
+                    field.setText(field.getText() + "2");
+                }
+                if (keyCode == event.VK_3)
+                {
+                    field.setText(field.getText() + "3");
+                }
+                if (keyCode == event.VK_4)
+                {
+                    four.addActionListener((e)->  field.setText(field.getText() + "4"));
+                }
+                if (keyCode == event.VK_5)
+                {
+                    five.addActionListener((e)->  field.setText(field.getText() + "5"));
+                }
+                if (keyCode == event.VK_6)
+                {
+                    six.addActionListener((e)->  field.setText(field.getText() + "6"));
+                }
+                if (keyCode == event.VK_7)
+                {
+                    seven.addActionListener((e)->  field.setText(field.getText() + "7"));
+                }
+                if (keyCode == event.VK_8)
+                {
+                    eight.addActionListener((e)->  field.setText(field.getText() + "8"));
+                }
+                if (keyCode == event.VK_9)
+                {
+                    nine.addActionListener((e)->  field.setText(field.getText() + "9"));
+                }
+                if (keyCode == event.VK_0)
+                {
+                    field.setText(field.getText() + "0");
+                }
+                if (keyCode == event.VK_PLUS)
+                {
+                    addition.addActionListener( (e)-> {
+                        String text = field.getText();
+                        num1.set(Integer.parseInt(text));
+                        System.out.println("+ is pressed");
+                        field.setText(field.getText() + "+");
+                    });
+                }
+                if (keyCode == event.VK_MINUS)
+                {
+                    subtraction.addActionListener( (e)-> {
+                        String text = field.getText();
+                        num1.set(Integer.parseInt(text));
+                        System.out.println("- is pressed");
+                        field.setText(field.getText() + "-");
+                    });
+                }
+                if (keyCode == event.VK_DIVIDE)
+                {
+                    division.addActionListener( (e)-> {
+                        String text = field.getText();
+                        num1.set(Integer.parseInt(text));
+                        System.out.println("÷ is pressed");
+                        field.setText(field.getText() + "÷");
+                    });
+                }
+                if (keyCode == event.VK_MULTIPLY)
+                {
+                    multiplication.addActionListener( (e)-> {
+                        String text = field.getText();
+                        num1.set(Integer.parseInt(text));
+                        System.out.println("x is pressed");
+                        field.setText(field.getText() + "x");
+                    });
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                System.out.println("Key Released!");
+            }
+        });
+
     }
+
 }
