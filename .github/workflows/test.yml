@@ -42,3 +42,7 @@ jobs:
           pr_assignee: ""
           pr_allow_empty: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete branch
+        uses: SvanBoxel/delete-merged-branch@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
