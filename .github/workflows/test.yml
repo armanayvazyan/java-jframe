@@ -27,6 +27,7 @@ jobs:
           grep -v "${{ github.event.client_payload.ticket }}" ${{steps.file.outputs.FILE}} > tmpfile.java && mv tmpfile.java ${{steps.file.outputs.FILE}}
       - name: Pushing code to new branch
         run: |
+          git branch remove_failing
           git checkout remove_failing
           git add -A
           git commit -m"Removed Failing Annotation line"
