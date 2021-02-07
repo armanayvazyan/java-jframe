@@ -18,7 +18,7 @@ jobs:
           git pull
       - name: Remove File
         env:
-          FILE_PATH: grep -r -l  PW-8831 src/test/java/com/picsart
+          FILE_PATH: grep -r -l PW-8831 src/com/company
         run: |
           echo "Path: ${FILE_PATH}"
           grep -v "${{ github.event.client_payload.ticket }}" ${FILE_PATH} > tmpfile.java && mv tmpfile.java ${FILE_PATH}
