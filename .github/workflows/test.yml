@@ -17,7 +17,7 @@ jobs:
           git branch --set-upstream-to=origin/master
           git pull
       - name: Getting File
-        run: echo '::set-output name={FILE}::{grep -r -l PW-8831 src/com/company}'
+        run: grep -r -l PW-8831 src/com/company
         id: file
       - name: Remove File
         run: |
