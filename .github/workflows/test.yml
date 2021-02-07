@@ -20,7 +20,7 @@ jobs:
         id: file
         run: |
           $file = grep -r -l PW-8831 src/com/company
-          echo "Path: ${FILE}"
+          echo "Path: ${file}"
           echo "::set-output name=FILE::${file}"
       - name: Remove File
         run: |
