@@ -38,7 +38,7 @@ jobs:
           source_branch: "remove_failing"
           destination_branch: "master"
           pr_title: "remove Failing Annotation"
-          pr_reviewer: "Karengrigoryan060,armanayvazyan"
+          pr_reviewer: "armanayvazyan"
           pr_assignee: ""
           pr_allow_empty: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
