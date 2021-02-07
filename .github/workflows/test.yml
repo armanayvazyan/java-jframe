@@ -25,7 +25,6 @@ jobs:
       - name: Remove File
         run: |
           grep -v "${{ github.event.client_payload.ticket }}" ${{steps.file.outputs.FILE}} > tmpfile.java && mv tmpfile.java ${{steps.file.outputs.FILE}}
-          rm tmpfile
       - name: Pushing code to new branch
         run: |
           git checkout remove_failing
