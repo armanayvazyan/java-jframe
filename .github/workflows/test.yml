@@ -19,9 +19,9 @@ jobs:
       - name: Getting File
         id: file
         run: |
-          $file = grep -r -l PW-8831 src/com/company
-          echo "Path: ${file}"
-          echo "::set-output name=FILE::${file}"
+          OUTPUT=$(grep -r -l PW-8831 src/com/company)
+          echo "${OUTPUT}"
+          echo "::set-output name=FILE::${OUTPUT}"
       - name: Remove File
         run: |
           grep -v "${{ github.event.client_payload.ticket }}" ${{steps.file.outputs.FILE}} > tmpfile.java && mv tmpfile.java ${{steps.file.outputs.FILE}}
