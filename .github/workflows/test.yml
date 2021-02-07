@@ -1,0 +1,41 @@
+name: Remove Failing
+on:
+  repository_dispatch:
+    types: [remove]
+jobs:
+  remove-failing-annotation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        run: |
+          git init
+          git remote add origin "https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY.git"
+          git config --global user.email "ci-bot@bot.com"
+          git config --global user.name "ci-bot"
+          git fetch
+          git checkout master
+          git branch --set-upstream-to=origin/master
+          git pull
+      - name: Remove File
+        env:
+          FILE_PATH: grep -r -l  PW-8831 src/test/java/com/picsart
+        run: |
+          echo "Path: ${FILE_PATH}"
+          grep -v "${{ github.event.client_payload.ticket }}" ${FILE_PATH} > tmpfile.java && mv tmpfile.java ${FILE_PATH}
+          rm tmpfile
+      - name: Pushing code to new branch
+        run: |
+          git checkout remove_failing
+          git add -A
+          git commit -m"Removed Failing Annotation line"
+          git push
+      - name: Open Pull Request
+        uses: repo-sync/pull-request@master
+        with:
+          source_branch: "remove_failing"
+          destination_branch: "master"
+          pr_title: "remove Failing Annotation"
+          pr_reviewer: "Karengrigoryan060,armanayvazyan"
+          pr_assignee: ""
+          pr_allow_empty: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
