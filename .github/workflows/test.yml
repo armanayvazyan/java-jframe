@@ -31,8 +31,7 @@ jobs:
           git checkout remove_failing
           git add -A
           git commit -m"Removed Failing Annotation line"
-          git branch --set-upstream-to=origin/master
-          git push
+          git push --set-upstream origin remove_failing
       - name: Open Pull Request
         uses: repo-sync/pull-request@master
         with:
