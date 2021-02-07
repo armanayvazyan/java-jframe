@@ -17,12 +17,12 @@ jobs:
           git branch --set-upstream-to=origin/master
           git pull
       - name: Getting File
-        run: grep -r -l PW-8831 src/com/company
-        id: file
+        run: |
+          echo ::set-env name=FILE::$(grep -r -l PW-8831 src/com/company)
       - name: Remove File
         run: |
-          echo "Path: ${{steps.file.outputs.FILE}}"
-          grep -v "${{ github.event.client_payload.ticket }}" ${{steps.file.outputs.FILE}} > tmpfile.java && mv tmpfile.java ${{steps.file.outputs.FILE}}
+          echo "Path: ${FILE}"
+          grep -v "${{ github.event.client_payload.ticket }}" ${FILE} > tmpfile.java && mv tmpfile.java ${FILE}}
           rm tmpfile
       - name: Pushing code to new branch
         run: |
