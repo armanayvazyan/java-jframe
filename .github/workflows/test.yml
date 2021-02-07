@@ -21,8 +21,8 @@ jobs:
         id: file
       - name: Remove File
         run: |
-          echo "Path: ${{steps.file.outputs.FILE}"
-          grep -v "${{ github.event.client_payload.ticket }}" ${FILE_PATH} > tmpfile.java && mv tmpfile.java ${FILE_PATH}
+          echo "Path: ${{steps.file.outputs.FILE}}"
+          grep -v "${{ github.event.client_payload.ticket }}" ${{steps.file.outputs.FILE}} > tmpfile.java && mv tmpfile.java ${{steps.file.outputs.FILE}}
           rm tmpfile
       - name: Pushing code to new branch
         run: |
