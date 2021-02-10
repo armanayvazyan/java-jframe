@@ -19,7 +19,7 @@ jobs:
       - name: Getting File
         id: file
         run: |
-          OUTPUT=$(grep -r -l ${{ github.event.client_payload.ticket }} src/test/java/com/picsart)
+          OUTPUT=$(grep -r -l ${{ github.event.client_payload.ticket }} src/)
           echo "${OUTPUT}"
           echo "::set-output name=FILE::${OUTPUT}"
       - name: Remove File
