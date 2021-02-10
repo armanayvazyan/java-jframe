@@ -21,12 +21,7 @@ jobs:
         run: |
           for i in $(grep -r -l ${{ github.event.client_payload.ticket }} src/)
           do
-          if [ -z "$OUTPUT" ]
-          then
-          echo "File not found"
-          else
           grep -v "${{ github.event.client_payload.ticket }}" $i > tmpfile.java && mv tmpfile.java $i
-          fi
           done
       - name: Pushing code to new branch
         run: |
