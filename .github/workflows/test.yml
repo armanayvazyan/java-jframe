@@ -19,7 +19,9 @@ jobs:
       - name: Getting File
         id: file
         run: |
-          for i in $(grep -r -l ${{ github.event.client_payload.ticket }} src/); do grep -v "${{ github.event.client_payload.ticket }}" $i > tmpfile.java && mv tmpfile.java $i; done
+          for i in $(grep -r -l ${{ github.event.client_payload.ticket }} src/)
+          do grep -v "${{ github.event.client_payload.ticket }}" $i > tmpfile.java && mv tmpfile.java $i
+          done
       - name: Pushing code to new branch
         run: |
           git branch remove-failing-${{ github.event.client_payload.ticket }}
