@@ -6,6 +6,7 @@ import java.awt.*;
 public class JCalc extends JFrame {
 
     public static void main(String[] args) {
+        String ticket = "PW-8831";
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
