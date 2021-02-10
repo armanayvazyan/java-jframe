@@ -22,15 +22,15 @@ jobs:
           for i in $(grep -r -l ${{ github.event.client_payload.ticket }} src/); do grep -v "${{ github.event.client_payload.ticket }}" $i > tmpfile.java && mv tmpfile.java $i; done
       - name: Pushing code to new branch
         run: |
-          git branch remove_failing
-          git checkout remove_failing
+          git branch remove-failing-${{ github.event.client_payload.ticket }}
+          git checkout remove-failing-${{ github.event.client_payload.ticket }}
           git add -A
           git commit -m"Removed Failing Annotation line"
           git push --set-upstream origin remove-failing-${{ github.event.client_payload.ticket }}
       - name: Open Pull Request
         uses: repo-sync/pull-request@master
         with:
-          source_branch: "remove_failing"
+          source_branch: "remove-failing-${{ github.event.client_payload.ticket }}"
           destination_branch: "master"
           pr_title: "remove Failing Annotation"
           pr_reviewer: "armanayvazyan"
