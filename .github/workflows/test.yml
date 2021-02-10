@@ -19,12 +19,12 @@ jobs:
       - name: Getting File
         id: file
         run: |
-          OUTPUT=$(grep -r -l ${{ github.event.client_payload.ticket }} src/)
-          echo "${OUTPUT}"
-          echo "::set-output name=FILE::${OUTPUT}"
+          for i in $(grep -r -l PW-8831 src/); do  arrVar+=($i); done
+          for value in "${arrVar[@]}"; do echo $value; echo "::set-output name=FILE_$value::${OUTPUT}"; done
       - name: Remove File
         run: |
-          grep -v "${{ github.event.client_payload.ticket }}" ${{steps.file.outputs.FILE}} > tmpfile.java && mv tmpfile.java ${{steps.file.outputs.FILE}}
+          for i in "${arrVar[@]}"
+          do grep -v "${{ github.event.client_payload.ticket }}" ${{steps.file.outputs.FILE_$value}} > tmpfile.java && mv tmpfile.java ${{steps.file.outputs.FILE_$value}}
       - name: Pushing code to new branch
         run: |
           git branch remove_failing
