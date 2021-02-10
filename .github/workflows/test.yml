@@ -21,12 +21,10 @@ jobs:
         run: |
           for i in $(grep -r -l PW-8831 src/); do  arrVar+=($i); done
           for value in "${arrVar[@]}"; do echo $value; echo "::set-output name=arrVar::${arrVar[@]}"; done
-        env:
-          OUTPUT: ${{ steps.id.outputs.arrVar }}
       - name: Remove File
         run: |
           for i in "${arrVar[@]}"
-          do grep -v "${{ github.event.client_payload.ticket }}" ${{ steps.file.outputs.arr }} > tmpfile.java && mv tmpfile.java ${{ steps.file.outputs.arr }}
+          do grep -v "${{ github.event.client_payload.ticket }}" ${{ steps.file.outputs.arrVar }} > tmpfile.java && mv tmpfile.java ${{ steps.file.outputs.arrVar }}
       - name: Pushing code to new branch
         run: |
           git branch remove_failing
