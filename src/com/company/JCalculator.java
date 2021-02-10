@@ -39,10 +39,6 @@ public class JCalculator extends JFrame {
         JButton equality = new JButton("=");
         JButton delete = new JButton("C");
 
-        String ticket = "PW-8831";
-        String e = "PW-8831";
-        String r = "PW-8831";
-        String er = "PW-8831";
 
         this.add(one);
         this.add(two);
@@ -55,7 +51,6 @@ public class JCalculator extends JFrame {
         this.add(nine);
         this.add(zero);
 
-        String er22 = "PW-8831";
 
         this.add(addition);
         this.add(subtraction);
