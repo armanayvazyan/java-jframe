@@ -23,7 +23,7 @@ jobs:
           for value in "${arrVar[@]}"; do echo $value; echo "::set-output name=arrVar::${arrVar[@]}"; done
       - name: Remove File
         run: |
-          for i in "${arrVar[@]}"; do grep -v "${{ github.event.client_payload.ticket }}" ${{ steps.file.outputs.arrVar[i] }} > tmpfile.java && mv tmpfile.java ${{ steps.file.outputs.arrVar[i] }}; done
+          for i in "${arrVar[@]}"; do grep -v "${{ github.event.client_payload.ticket }}" $i > tmpfile.java && mv tmpfile.java $i; done
       - name: Pushing code to new branch
         run: |
           git branch remove_failing
