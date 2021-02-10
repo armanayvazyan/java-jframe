@@ -24,59 +24,16 @@ jobs:
         run: |
           git branch remove_failing
           git checkout remove_failing
-          git add -Aname: Remove Failing
-                    on:
-                      repository_dispatch:
-                        types: [remove]
-                    jobs:
-                      remove-failing-annotation:
-                        runs-on: ubuntu-latest
-                        steps:
-                          - name: Checkout
-                            run: |
-                              git init
-                              git remote add origin "https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY.git"
-                              git config --global user.email "ci-bot@bot.com"
-                              git config --global user.name "ci-bot"
-                              git fetch
-                              git checkout master
-                              git branch --set-upstream-to=origin/master
-                              git pull
-                          - name: Getting File
-                            id: file
-                            run: |
-                              OUTPUT=$(grep -r -l ${{ github.event.client_payload.ticket }} src/test/java/com/picsart)
-                              echo "${OUTPUT}"
-                              echo "::set-output name=FILE::${OUTPUT}"
-                          - name: Remove File
-                            run: |
-                              grep -v "${{ github.event.client_payload.ticket }}" ${{steps.file.outputs.FILE}} > tmpfile.java && mv tmpfile.java ${{steps.file.outputs.FILE}}
-                          - name: Pushing code to new branch
-                            run: |
-                              git branch remove_failing
-                              git checkout remove_failing
-                              git add -A
-                              git commit -m"Removed Failing Annotation line"
-                              git push --set-upstream origin remove_failing
-                          - name: Open Pull Request
-                            uses: repo-sync/pull-request@master
-                            with:
-                              source_branch: "remove_failing"
-                              destination_branch: "master"
-                              pr_title: "remove Failing Annotation"
-                              pr_reviewer: "armanayvazyan,Karengrigoryan060"
-                              pr_assignee: ""
-                              pr_allow_empty: true
-                              github_token: ${{ secrets.GITHUB_TOKEN }}
+          git add -A
           git commit -m"Removed Failing Annotation line"
-          git push --set-upstream origin remove_failing
+          git push --set-upstream origin remove-failing-${{ github.event.client_payload.ticket }}
       - name: Open Pull Request
         uses: repo-sync/pull-request@master
         with:
           source_branch: "remove_failing"
           destination_branch: "master"
           pr_title: "remove Failing Annotation"
-          pr_reviewer: "armanayvazyan,Karengrigoryan060"
+          pr_reviewer: "armanayvazyan"
           pr_assignee: ""
           pr_allow_empty: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
